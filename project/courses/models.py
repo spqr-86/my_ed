@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.template.loader import render_to_string
+from ckeditor.fields import RichTextField
 
 from .fields import OrderField
 
@@ -88,7 +89,8 @@ class Content(models.Model):
     content_type = models.ForeignKey(
         ContentType,
         on_delete=models.CASCADE,
-        limit_choices_to={'model__in': ('text', 'video', 'image', 'file')})
+        limit_choices_to={'model__in': (
+            'ckeditor', 'text', 'video', 'image', 'file')})
     object_id = models.PositiveIntegerField()
     item = GenericForeignKey(
         'content_type', 'object_id'
@@ -129,6 +131,10 @@ class ItemBase(models.Model):
             f'courses/content/{self._meta.model_name}.html',
             {'item': self}
         )
+
+
+class CkEditor(ItemBase):
+    content = RichTextField()
 
 
 class Text(ItemBase):
