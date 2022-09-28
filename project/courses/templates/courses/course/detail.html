@@ -2,14 +2,13 @@
 {% block title %}
     {{ object.title }}
 {% endblock %}
-
 {% block content %}
     {% with subject=object.subject %}
         <h1>
             {{ object.title }}
         </h1>
         <div class="module">
-            <h2>Overview</h2>
+            <h2>Описание курса</h2>
             <p>
                <a href="{% url "course_list_subject" subject.slug %}"> {{ subject.title }}</a>.
                {{ object.modules.count }} modules.
@@ -20,14 +19,18 @@
                 <form action="{% url "student_enroll_course" %}" method="post">
                     {{ enroll_form }}
                     {% csrf_token %}
-                    <input type="submit" value="Enroll now">
+                    <input type="submit" value="Зарегистрироваться">
                 </form>
             {% else %}
                 <a href="{% url "student_registration" %}" class="button">
-                    Register to enroll
+                    Войти чтобы подписаться на курс
                 </a>
             {% endif %}
-
+            {% if request.user == object.owner %}
+                <a href="{% url "course_edit" object.id %}" class="button">
+                    Изменить курс
+                </a>
+            {% endif %}
         </div>
     {% endwith %}
 {% endblock %}

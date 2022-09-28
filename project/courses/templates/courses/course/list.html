@@ -1,26 +1,32 @@
 {% extends "base.html" %}
 {% block title %}
     {% if subject %}
-        {{ subject.title }} courses
+        {{ subject.title }}
     {% else %}
-        All courses
+        Все курсы
     {% endif %}
 {% endblock %}
 
 {% block content %}
     <h1>
         {% if subject %}
-            {{ subject.title }} courses
+            {{ subject.title }}
         {% else %}
-            All courses
+            Все курсы
         {% endif %}
     </h1>
 
     <div class="contents">
-        <h3>Subjects</h3>
+        <h3>Курсы</h3>
         <ul id="modules">
+
+
             <li {% if not subject %} class="selected" {% endif %}>
-                <a href="{% url "course_list" %}">All</a>
+                <a href="{% url "student_course_list" %}"> Мои курсы</a>
+            </li>
+
+            <li {% if not subject %} class="selected" {% endif %}>
+                <a href="{% url "course_list" %}">Все курсы</a>
             </li>
 
             {% for s in subjects %}

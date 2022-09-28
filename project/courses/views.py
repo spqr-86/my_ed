@@ -11,9 +11,7 @@ from django.views.generic.base import TemplateResponseMixin, View
 from django.forms.models import modelform_factory
 from django.apps import apps
 from django.db.models import Count
-
 from students.forms import CourseEnrollForm
-
 from .forms import ModuleFormSet
 from .models import Course, Module, Content, Subject
 
