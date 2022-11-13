@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}
+  {% if subject %}
+    {{ subject.title }}
+  {% else %}
+    All courses
+  {% endif %}
+{% endblock %}
+{% block menu_title %}
+  {% if subject %}
+    {{ subject.title }}
+  {% else %}
+    All Courses
+  {% endif %}
+{% endblock %}
+{% block menu %}
+  <a class="w3-bar-item w3-button" href="{% url 'course_create' %}">Create course</a>
+  <a class="w3-bar-item w3-button" href="{% url "student_course_list" %}">My courses</a>
+  {% for s in subjects %}
+    <a class="w3-bar-item w3-button" href="{% url "course_list_subject" s.slug %}">{{ s.title }}</a>
+  {% endfor %}
+{% endblock %}
+{% block content %}
+  <div class="module">
+    {% for course in courses %}
+      {% with subject=course.subject %}
+        <h3>
+          <a href="{% url "course_detail" course.slug %}">
+            {{ course.title }}
+          </a>
+        </h3>
+        <p>
+          <a href="{% url "course_list_subject" subject.slug %}">{{ subject }}</a>.
+          {{ course.total_modules }} modules.
+          Instructor: {{ course.owner.get_full_name }}
+        </p>
+      {% endwith %}
+    {% endfor %}
+  </div>
+{% endblock %}

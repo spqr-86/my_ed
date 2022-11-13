@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% load course_filters %}
+{% block stylesheet %}
+  <link href="{% static "css/form.css" %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+  Module {{ module.order|add:1 }}: {{ module.title }}
+{% endblock %}
+{% block menu_title %}
+  {% with course=module.course %}
+    Course "{{ course.title }}"
+    <h3>Modules</h3>
+  {% endwith %}
+{% endblock %}
+{% block menu %}
+  {% with course=module.course %}
+    {% for m in course.modules.all %}
+      <a class="w3-bar-item w3-button" href="{% url "module_content_list" m.id %}">
+        Module <span class="order">{{ m.order|add:1 }}</span> {{ m.title }}
+      </a>
+    {% empty %}
+      <li>No modules yet.</li>
+    {% endfor %}
+  {% endwith %}
+{% endblock %}
+{% block content %}
+  <div class="module">
+    <h2>Module {{ module.order|add:1 }}: {{ module.title }}</h2>
+    <h3>Module contents:</h3>
+    <div id="module-contents">
+      {% for content in module.contents.all %}
+        <div data-id="{{ content.id }}">
+        {% with item=content.item %}
+          <p>{{ item }} ({{ item|model_name }})</p>
+          <a href="{% url "module_content_update" module.id item|model_name item.id %}">
+              Edit
+          </a>
+          <form action="{% url "module_content_delete" content.id %}" method="post">
+            <input type="submit" value="Delete">
+            {% csrf_token %}
+          </form>
+        {% endwith %}
+        </div>
+      {% empty %}
+         <p>This module has no contents yet.</p>
+      {% endfor %}
+    </div>
+    <h3>Add new content:</h3>
+    <ul class="content-types">
+      <li><a href="{% url "module_content_create" module.id "ckeditor" %}"> CkEditor</a></li>
+      <li><a href="{% url "module_content_create" module.id "text" %}"> Text</a></li>
+      <li><a href="{% url "module_content_create" module.id "image" %}"> Image</a></li>
+      <li><a href="{% url "module_content_create" module.id "video" %}"> Video</a></li>
+      <li><a href="{% url "module_content_create" module.id "file" %}"> File</a></li>
+     </ul>
+  </div>
+{% endblock %}

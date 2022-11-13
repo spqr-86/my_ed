@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% load course_filters %}
+{% block stylesheet %}
+    <link href="{% static "css/form.css" %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+  {% if object %}
+    Edit course "{{ object.title }}"
+  {% else %}
+    Create a new course
+  {% endif %}
+{% endblock %}
+{% block content %}
+<div class="w3-card-4">
+  <div class="form-container">
+    <div class="w3-container">
+      <h2>
+        {% if object %}
+          Edit course "{{ object.title }}"
+        {% else %}
+          Create a new course
+        {% endif %}
+      </h2>
+    </div>
+    <form method="post" class="w3-container">
+      {% csrf_token %}
+      {{ form.subject.label_tag }}
+      {{ form.subject | addclass:"w3-input" }}
+      {{ form.title.label_tag }}
+      {{ form.title | addclass:"w3-input" }}
+      {{ form.slug.label_tag }}
+      {{ form.slug | addclass:"w3-input" }}
+      {{ form.overview.label_tag }}
+      {{ form.overview | addclass:"w3-input" }}
+      <p><input type="submit" value="Save course"></p>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load course_filters %}
+{% block title %}
+  {{ object.title }}
+{% endblock %}
+{% block menu_title %}{{ object.title }}{% endblock %}
+{% block menu %}
+  {% for m in object.modules.all %}
+    {% if m.contents.all|length < 2 %}
+      <a href="{% url "student_course_detail_module" object.id m.id 1 %}"
+        class="w3-bar-item w3-button">{{ m.title }}</a>
+    {% else %}
+      <button class="w3-button w3-block w3-left-align" onclick="myAccFunc()">
+        {{ m.title }} <i class="fa fa-caret-down"></i>
+      </button>
+      <div id="demoAcc" class="w3-hide w3-white w3-card">
+        {% for content in m.contents.all %}
+          <a href="{% url "student_course_detail_module" object.id m.id content.id %}" class="w3-bar-item w3-button">{{ content.item.title }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% empty %}
+    <li>No modules yet.</li>
+  {% endfor %}
+{% endblock %}
+{% block manage_menu %}
+  <a class="w3-bar-item w3-button" href='{% url "course_edit" object.id %}'>Edit course</a>
+  <a class="w3-bar-item w3-button" href='{% url "course_edit" object.id %}'>Edit modules</a>
+{% endblock %}
+{% block content %}
+<div class="w3-panel w3-padding-large w3-card-4 w3-light-grey">
+  {% with item=content.item %}
+    <h1 class="w3-jumbo">{{ item.title }}</h1>
+      {{ item.render }}
+    <a href="{% url "module_content_update" module.id item|model_name item.id %}">
+      Edit
+    </a>
+  {% endwith %}
+</div>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Educa{% endblock %}</title>
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
+    {% block stylesheet %}{% endblock %}
+    <!--w3.css-->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!--Highlight.js-->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/monokai.min.css">
+    <style>
+      .w3-theme {color:#fff !important;background-color:#4CAF50 !important}
+      .w3-btn {background-color:#4CAF50;margin-bottom:4px}
+      .w3-code{border-left:4px solid #4CAF50}
+      .myMenu {margin-bottom:150px}
+    </style>
+  </head>
+  <body>
+    {% include 'includes/nav.html' %}
+    <!-- Sidebar -->
+    <div class="w3-sidebar w3-bar-block w3-collapse w3-animate-left" style="z-index:3;width:270px" id="mySidebar">
+      <div class="w3-bar w3-hide-large w3-large">
+        <a href="javascript:void(0)" onclick="w3_show_nav('menuTut')" class="w3-bar-item w3-button w3-theme w3-hover-white w3-padding-16" style="width:50%">Tutorials</a>
+        <a href="javascript:void(0)" onclick="w3_show_nav('menuRef')" class="w3-bar-item w3-button w3-theme w3-hover-white w3-padding-16" style="width:50%">References</a>
+      </div>
+      <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-right w3-xlarge w3-hide-large" title="Close Menu">×</a>
+      <div id="menuTut" class="myMenu">
+        <div class="w3-container">
+          <h3>{% block menu_title %}{% endblock %}</h3>
+        </div>
+        {% block menu %}{% endblock %}
+      </div>
+      <div id="menuRef" class="myMenu" style="display:none">
+        <div class="w3-container">
+          <h3>Manage_course</h3>
+        </div>
+        <a class="w3-bar-item w3-button" href='{% url "manage_course_list" %}'>Manage_course list</a>
+        {% block manage_menu %}
+        {% endblock %}
+      </div>
+    </div>
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+    <!--     Main content: shift it to the right by 270 pixels when the sidebar is visible-->
+    <div class="w3-main w3-container" style="margin-left:270px;margin-top:117px;">
+      {% block content %}
+      {% endblock %}
+    </div>
+    <footer class="w3-panel w3-padding-32 w3-card-4 w3-light-grey w3-center w3-opacity">
+      <p><nav>
+      <a href="/forum/default.asp" target="_blank">FORUM</a> |
+      <a href="/about/default.asp" target="_top">ABOUT</a>
+      </nav></p>
+    </footer>
+    <!-- END MAIN -->
+    </div>
+    <script>
+      function myAccFunc() {
+        var x = document.getElementById("demoAcc");
+        if (x.className.indexOf("w3-show") == -1) {
+          x.className += " w3-show";
+          x.previousElementSibling.className += " w3-green";
+        } else {
+          x.className = x.className.replace(" w3-show", "");
+          x.previousElementSibling.className =
+          x.previousElementSibling.className.replace(" w3-green", "");
+        }
+      }
+      function myDropFunc() {
+        var x = document.getElementById("demoDrop");
+        if (x.className.indexOf("w3-show") == -1) {
+          x.className += " w3-show";
+          x.previousElementSibling.className += " w3-green";
+        } else {
+          x.className = x.className.replace(" w3-show", "");
+          x.previousElementSibling.className =
+          x.previousElementSibling.className.replace(" w3-green", "");
+        }
+      }
+    </script>
+    <script>
+    // Script to open and close the sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+    
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+    
+    function w3_show_nav(name) {
+      document.getElementById("menuTut").style.display = "none";
+      document.getElementById("menuRef").style.display = "none";
+      document.getElementById(name).style.display = "block";
+      w3-open();
+    }
+    </script>
+    <script src="https://www.w3schools.com/lib/w3codecolor.js"></script>
+    <script>
+      w3CodeColor();
+    </script>
+    {% block js %}{% endblock %}
+    <!--Highlight.js-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+  </body>
+</html>
