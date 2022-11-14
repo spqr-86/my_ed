@@ -10,7 +10,7 @@ LOGIN_REDIRECT_URL = reverse_lazy('student_course_list')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-qscq@5e0!%af!!hn)d8%)a=quh4ztnhko6!j!kkfvukhbf)(+2'
+SECRET_KEY = ENV['SECRET_KEY']
 
 DEBUG = True
 
